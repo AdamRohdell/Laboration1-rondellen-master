@@ -1,14 +1,9 @@
 package main.views;
 
-import main.IRenderable;
-import main.model.vehicles.cars.Car;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 

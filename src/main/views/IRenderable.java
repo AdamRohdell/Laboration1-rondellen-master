@@ -1,4 +1,4 @@
-package main;
+package main.views;
 
 import java.awt.*;
 

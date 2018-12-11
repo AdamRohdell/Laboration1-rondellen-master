@@ -16,8 +16,6 @@ import java.awt.event.ActionListener;
 public class CarView extends JFrame{
     private static final int X = 800;
     private static final int Y = 800;
-    // The controller member
-    CarController carC;
     DrawPanel drawPanel;
     JPanel controlPanel = new JPanel();
     JPanel gasPanel = new JPanel();

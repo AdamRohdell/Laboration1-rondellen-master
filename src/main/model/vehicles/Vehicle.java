@@ -1,6 +1,6 @@
 package main.model.vehicles;
 
-import main.IRenderable;
+import main.views.IRenderable;
 
 import java.awt.*;
 
