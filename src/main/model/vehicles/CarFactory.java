@@ -12,30 +12,31 @@ import java.util.List;
 public class CarFactory {
 
     private Point point = new Point(0,0);
-    private ArrayList<Car> listOfCars = new ArrayList<>();
+    private ArrayList<Car> listOfAvailableCars = new ArrayList<>();
 
-    public void createVolvo240(){
+    public Vehicle createVolvo240(){
         Volvo240 volvo = new Volvo240();
         volvo.setPosition(point);
-        listOfCars.add(volvo);
-        point = new Point(0, point.y+ 100);    }
-
-    public void createSaab95(){
-        Saab95 saab = new Saab95();
-        saab.setPosition(point);
-        listOfCars.add(saab);
         point = new Point(0, point.y+ 100);
+        return volvo;
     }
 
-    public void createScania(){
+    public Vehicle createSaab95(){
+        Saab95 saab = new Saab95();
+        saab.setPosition(point);
+        point = new Point(0, point.y+ 100);
+        return saab;
+    }
+
+    public Vehicle createScania(){
         Scania scania = new Scania();
         scania.setPosition(point);
-        listOfCars.add(scania);
         point = new Point(0, point.y + 100);
+        return scania;
     }
 
     public ArrayList<Car> getListOfCars() {
-        return listOfCars;
+        return listOfAvailableCars;
     }
 }
 

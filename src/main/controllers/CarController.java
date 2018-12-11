@@ -1,6 +1,7 @@
 package main.controllers;
 
 import main.model.vehicles.CarFactory;
+import main.model.vehicles.CompositeVehicle;
 import main.model.vehicles.cars.*;
 import main.model.vehicles.transport.Scania;
 import main.views.CarView;
@@ -32,10 +33,14 @@ public class CarController {
     // A list of cars, modify if needed
     //ArrayList<Car> cars = new ArrayList<>();
     CarFactory carFactory = new CarFactory();
+    CompositeVehicle composite;
 
-    public CarController(CarView frame){
+    public CarController(CarView frame, CompositeVehicle composite){
         this.frame = frame;
+        this.composite = composite;
         initButtons();
+        this.composite.windowWidth = frame.getWidth();
+        this.composite.carWidth = frame.getDrawPanel().getImage(new Saab95()).getWidth();
     }
 
     public void startTimer() {
@@ -50,110 +55,16 @@ public class CarController {
     * */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            for (Car car : carFactory.getListOfCars()) {
-                car.move();
-                if (calculateIfOutOfBounds(car)) {
-                    changeDirection(car);
-                }
-                // repaint() calls the paintComponent method of the panel
-                frame.getDrawPanel().render(getCars());
-            }
+            composite.moveVehicles();
+            // repaint() calls the paintComponent method of the panel
+            frame.getDrawPanel().render(composite.getVehicles());
         }
     }
 
-    public ArrayList<Car> getCars(){
-        return carFactory.getListOfCars();
+    public CompositeVehicle getComposite(){
+        return composite;
     }
 
-    public void createVehicle(String string){
-        if(string == "Volvo240"){
-            carFactory.createVolvo240();
-        }else if(string == "Saab95"){
-            carFactory.createSaab95();
-        }else if(string == "Scania"){
-            carFactory.createScania();
-        }
-    }
-
-    private void changeDirection(Car c){
-        c.getDirection().addAngle(2);
-    }
-
-
-    private boolean calculateIfOutOfBounds(Car car){
-        int carWidth = frame.getDrawPanel().getImage(car).getWidth();
-        if (car.getPosition().x + carWidth>= frame.getWidth() || car.getPosition().x < 0){
-            return true;
-        }
-        return false;
-    }
-
-    // Calls the gas method for each car once
-    public void gas(int amount) {
-        double gas = ((double) amount) / 100;
-        for (Car car : carFactory.getListOfCars()
-                ) {
-            car.gas(gas);
-        }
-    }
-
-    public void brake(int amount){
-        double brake = (double) amount / 100;
-        for (Car car : carFactory.getListOfCars()){
-            car.brake(brake);
-        }
-    }
-
-    public void startCars(){
-        for (Car car : carFactory.getListOfCars()){
-            car.startEngine();
-        }
-    }
-
-    public void stopCars(){
-        for (Car car : carFactory.getListOfCars()){
-            car.stopEngine();
-        }
-    }
-
-    
-    public void setTurboOn(){
-        Saab95 saab;
-        for (Car car : carFactory.getListOfCars()){
-            if (car.getClass() == new Saab95().getClass()){
-                saab = (Saab95)car;
-                saab.turboOn = true;
-            }
-        }
-    }
-    public void setTurboOff(){
-        Saab95 saab;
-        for (Car car : carFactory.getListOfCars()){
-            if (car.getClass() == new Saab95().getClass()){
-                saab = (Saab95)car;
-                saab.turboOn = false;
-            }
-        }
-    }
-    public void liftBeds(){
-        Scania scania;
-        for (Car car : carFactory.getListOfCars()){
-            if (car.getClass() == new Scania().getClass()){
-                scania = (Scania)car;
-                scania.tipFlatbed(70);
-            }
-        }
-    }
-
-    public void lowerBeds(){
-        Scania scania;
-        for (Car car : carFactory.getListOfCars()){
-            if (car.getClass() == new Scania().getClass()){
-                scania = (Scania)car;
-                scania.tipFlatbed(0);
-            }
-        }
-    }
 
     public void initButtons(){
         // This actionListener is for the gas button only
@@ -161,50 +72,50 @@ public class CarController {
         frame.gasButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gas(frame.getGasAmount());
+                composite.gas(frame.getGasAmount());
             }
         });
         frame.brakeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                brake(frame.getGasAmount());
+                composite.brake(frame.getGasAmount());
             }
         });
 
         frame.startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                startCars();
+                composite.startVehicles();
             }
         });
         frame.stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                stopCars();
+                composite.stopVehicles();
             }
         });
         frame.turboOnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTurboOn();
+                composite.setTurbosOn();
             }
         });
         frame.turboOffButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTurboOff();
+                composite.setTurbosOn();
             }
         });
         frame.liftBedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                liftBeds();
+                composite.liftBeds();
             }
         });
         frame.lowerBedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lowerBeds();
+                composite.lowerBeds();
             }
         });
     }
