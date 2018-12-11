@@ -27,7 +27,6 @@ public class CarController {
     // each step between delays.
     private Timer timer = new Timer(delay, new TimerListener());
 
-    Point newCarLocation = new Point();
     // The frame that represents this instance View of the MVC pattern
     public CarView frame;
     // A list of cars, modify if needed
@@ -45,26 +44,6 @@ public class CarController {
 
     //methods:
 
-   /* public static void main(String[] args) {
-        // Instance of this class
-        CarController cc = new CarController();
-
-        cc.cars.add(CarFactory.createVolvo240());
-
-        Car saab = CarFactory.createSaab95();
-        saab.point.setLocation(0,100);
-        cc.cars.add(saab);
-
-        Car scania = CarFactory.createScania();
-        scania.point.setLocation(0,200);
-        cc.cars.add(scania);
-
-        // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
-
-        // Start the timer
-        cc.timer.start();
-    }*/
 
     /* Each step the TimerListener moves all the cars in the list and tells the
     * view to update its images. Change this method to your needs.
@@ -87,15 +66,13 @@ public class CarController {
     }
 
     public void createVehicle(String string){
-        if(string == "Volvo240")
-            carFactory.createVolvo240(newCarLocation);
-        else if(string == "Saab95")
-            carFactory.createSaab95(newCarLocation);
-        else if(string == "Scania")
-            carFactory.createScania(newCarLocation);
-        else
-            System.out.println("Please enter a valid model name.");
-        newCarLocation.y = newCarLocation.y + 100;
+        if(string == "Volvo240"){
+            carFactory.createVolvo240();
+        }else if(string == "Saab95"){
+            carFactory.createSaab95();
+        }else if(string == "Scania"){
+            carFactory.createScania();
+        }
     }
 
     private void changeDirection(Car c){
